@@ -36,7 +36,16 @@ export class Circle implements Shape {
   }
 
   encompasses(other: Shape): boolean {
-    throw new Error("Method not implemented.");
+    if (other instanceof Rectangle) {
+      const corners = [
+        other.cornerA(),
+        other.cornerB(),
+        other.cornerC(),
+        other.cornerD(),
+      ];
+      return corners.every((p) => this.center.distanceTo(p) < this.radius);
+    }
+    throw new Error("Not implemented for this shape.");
   }
 
   circumference(): number {
@@ -100,6 +109,22 @@ export class Rectangle implements Shape {
 
   diagonal(): number {
     return this.bottomLeft.distanceTo(this.topRight);
+  }
+
+  cornerA(): Point2D {
+    return this.bottomLeft;
+  }
+
+  cornerB(): Point2D {
+    return new Point2D(this.topRight.x, this.bottomLeft.y);
+  }
+
+  cornerC(): Point2D {
+    return this.topRight;
+  }
+
+  cornerD(): Point2D {
+    return new Point2D(this.bottomLeft.x, this.topRight.y);
   }
 
   private width(): number {
