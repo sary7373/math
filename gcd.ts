@@ -8,16 +8,26 @@ export function gcdBruteForce(a: number, b: number) {
   return gcd;
 }
 
+export function gcdEuclid(a: number, b: number): number {
+  if (a === b) return a;
+  if (a > b) return gcdEuclid(a - b, b);
+  return gcdEuclid(a, b - a);
+}
+
 export class Fraction {
-  constructor (numerator: number, denominator: number) {
-    this.numerator = numerator
-    this.denominator = denominator
+  numerator: number;
+  denominator: number;
+
+  constructor(numerator: number, denominator: number) {
+    this.numerator = numerator;
+    this.denominator = denominator;
+    this.cancel()
   }
-  numerator = 0;
-  denominator = 0;
+
   cancel() {
-    const gcd = gcdBruteForce(this.numerator, this.denominator);
-    this.numerator /= gcd
-    this.denominator /= gcd
+    const gcd = gcdEuclid(this.numerator, this.denominator);
+    this.numerator /= gcd;
+    this.denominator /= gcd;
   }
 }
+
