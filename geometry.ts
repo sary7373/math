@@ -1,6 +1,7 @@
 export interface Shape {
   circumference(): number;
   area(): number;
+  encompasses(other: Shape): boolean;
 }
 
 export class Point2D {
@@ -21,6 +22,9 @@ export class Circle implements Shape {
     private center: Point2D,
     private radius: number,
   ) {}
+  encompasses(other: Shape): boolean {
+    throw new Error("Method not implemented.");
+  }
 
   circumference(): number {
     return 2 * Math.PI * this.radius;
@@ -33,6 +37,22 @@ export class Circle implements Shape {
   diameter(): number {
     return 2 * this.radius;
   }
+
+  north(): Point2D {
+    return new Point2D(this.center.x, this.center.y + this.radius);
+  }
+
+  east(): Point2D {
+    return new Point2D(this.center.x + this.radius, this.center.y);
+  }
+
+  south(): Point2D {
+    return new Point2D(this.center.x, this.center.y - this.radius);
+  }
+
+  west(): Point2D {
+    return new Point2D(this.center.x - this.radius, this.center.y);
+  }
 }
 
 export class Rectangle implements Shape {
@@ -40,6 +60,9 @@ export class Rectangle implements Shape {
     private bottomLeft: Point2D,
     private topRight: Point2D,
   ) {}
+  encompasses(other: Shape): boolean {
+    throw new Error("Method not implemented.");
+  }
 
   circumference(): number {
     return 2 * (this.width() + 2 * this.height());
