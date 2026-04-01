@@ -1,5 +1,5 @@
 import { assertAlmostEquals, assertEquals } from "@std/assert";
-import { Circle, Point2D } from "./geometry.ts";
+import { Circle, Point2D, Rectangle } from "./geometry.ts";
 
 Deno.test("circumference of a circle with radius 5 is roughtly 31.416", () => {
   // Given
@@ -63,6 +63,30 @@ Deno.test("center M does not lie between W and E on the y-axis", () => {
 
   // When
   const actual = M.isBetweenY(W, E);
+
+  // Then
+  assertEquals(actual, false);
+});
+
+Deno.test("rectangle encompasses circle completely", () => {
+  // Given
+  const rect = new Rectangle(new Point2D(0, 0), new Point2D(10, 10));
+  const circle = new Circle(new Point2D(5, 5), 3);
+
+  // When
+  const actual = rect.encompasses(circle);
+
+  // Then
+  assertEquals(actual, true);
+});
+
+Deno.test("rectangle does not encompass circle completely", () => {
+  // Given
+  const rect = new Rectangle(new Point2D(0, 0), new Point2D(10, 10));
+  const circle = new Circle(new Point2D(9, 5), 3);
+
+  // When
+  const actual = rect.encompasses(circle);
 
   // Then
   assertEquals(actual, false);

@@ -30,6 +30,11 @@ export class Circle implements Shape {
     private center: Point2D,
     private radius: number,
   ) {}
+
+  getCenter(): Point2D {
+    return this.center;
+  }
+
   encompasses(other: Shape): boolean {
     throw new Error("Method not implemented.");
   }
@@ -69,7 +74,20 @@ export class Rectangle implements Shape {
     private topRight: Point2D,
   ) {}
   encompasses(other: Shape): boolean {
-    throw new Error("Method not implemented.");
+    if (other instanceof Circle) {
+      const points = [
+        other.getCenter(),
+        other.north(),
+        other.east(),
+        other.south(),
+        other.west(),
+      ];
+      return points.every(
+        (p) => p.isBetweenX(this.bottomLeft, this.topRight) &&
+               p.isBetweenY(this.bottomLeft, this.topRight),
+      );
+    }
+    throw new Error("Not implemented for this shape.");
   }
 
   circumference(): number {
